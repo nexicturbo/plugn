@@ -90,14 +90,14 @@ $this->params['breadcrumbs'][] = $this->title;
               'payment_uuid',
               [
                   'label' => 'Store Name',
-                  'format' => 'raw',
+                  'format' => 'text',
                   'value' => function ($data) {
                       return $data->restaurant->name ;
                   }
               ],
               [
                   'label' => 'Customer Name',
-                  'format' => 'raw',
+                  'format' => 'text',
                   'value' => function ($data) {
                       return $data->customer->customer_name ;
                   }
@@ -153,7 +153,7 @@ $this->params['breadcrumbs'][] = $this->title;
               'payment_uuid',
               [
                   'label' => 'Store Name',
-                  'format' => 'raw',
+                  'format' => 'text',
                   'value' => function ($data) {
                       return $data->restaurant->name ;
                   }
