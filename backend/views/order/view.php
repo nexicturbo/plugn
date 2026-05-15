@@ -774,7 +774,9 @@ DetailView::widget([
                 <?php
                 if ($model->payment) {
                     foreach($model->payment->paymentFails as $paymentFail) { ?>
-                       <pre> <?php print_r($paymentFail->response) ?></pre>
+                       <?= Html::tag('pre', Html::encode($paymentFail->response), [
+                           'class' => 'payment-failed-response',
+                       ]) ?>
                     <?php }
                       // unserialize(  . '')
                 }

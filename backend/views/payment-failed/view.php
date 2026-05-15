@@ -16,6 +16,17 @@ function isSerialized($data) {
     return ($unserializedData !== false || $data === 'b:0;');
 }
 
+function paymentFailedResponseText($response) {
+    if (isSerialized($response)) {
+        try {
+            return print_r(@unserialize($response), true);
+        } catch (Exception $e) {
+        }
+    }
+
+    return (string) $response;
+}
+
 ?>
 <div class="payment-failed-view">
 
@@ -73,14 +84,9 @@ function isSerialized($data) {
                 'attribute' => 'response',
                 "format" => "raw",
                 'value' => function ($model) {
-                    if (isSerialized($model->response)) {
-                        try {
-                            return print_r(unserialize($model->response), true);
-                        } catch (Exception $e) {
-                        }
-                    }
-
-                    return $model->response;
+                    return Html::tag('pre', Html::encode(paymentFailedResponseText($model->response)), [
+                        'class' => 'payment-failed-response',
+                    ]);
                 }
             ],
             'created_at',
