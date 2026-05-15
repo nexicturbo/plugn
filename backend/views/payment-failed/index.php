@@ -54,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 "format" => "raw",
                 'value' => function ($model) {
                     if($model->restaurant) {
-                        return Html::a($model->restaurant->name, \yii\helpers\Url::to(['restaurant/view', 'id' => $model->order->restaurant_uuid]), [
+                        return Html::a(Html::encode($model->restaurant->name), \yii\helpers\Url::to(['restaurant/view', 'id' => $model->order->restaurant_uuid]), [
                             "target" => "_blank"
                         ]);
                     }
