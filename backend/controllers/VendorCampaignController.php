@@ -96,13 +96,14 @@ class VendorCampaignController extends Controller
 
             $transaction = Yii::$app->db->beginTransaction();
 
-            if( $model->save()) {
+            if ($model->save()) {
 
-                $campaignFilter = Yii::$app->request->post('CampaignFilter');
+                $campaignFilter = (array) Yii::$app->request->post('CampaignFilter', []);
+                $filtersSaved = true;
 
                 foreach ($campaignFilter as $key => $value) {
 
-                    if(!$value || strlen($value) == 0) {
+                    if (!$value || strlen($value) == 0) {
                         continue;
                     }
 
@@ -112,14 +113,27 @@ class VendorCampaignController extends Controller
                     $cf->value = $value;
 
                     if (!$cf->save()) {
-                        $transaction->rollBack();
+                        $filtersSaved = false;
+                        foreach ($cf->getFirstErrors() as $error) {
+                            Yii::$app->session->addFlash('error', $error);
+                        }
                         break;
                     }
                 }
 
-                $transaction->commit();
+                if ($filtersSaved) {
+                    $transaction->commit();
 
-                return $this->redirect(['view', 'id' => $model->campaign_uuid]);
+                    return $this->redirect(['view', 'id' => $model->campaign_uuid]);
+                }
+            } else {
+                foreach ($model->getFirstErrors() as $error) {
+                    Yii::$app->session->addFlash('error', $error);
+                }
+            }
+
+            if ($transaction->isActive) {
+                $transaction->rollBack();
             }
         }
 
