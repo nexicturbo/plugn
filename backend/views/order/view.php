@@ -798,7 +798,9 @@ DetailView::widget([
                             'attribute' => 'customer_phone_number',
                             "format" => "raw",
                             "value" => function($model) {
-                              return '<a href="tel:'. $model->customer_phone_number .'"> '. str_replace(' ', '', $model->customer_phone_number) .' </a>';
+                              $phoneNumber = (string) $model->customer_phone_number;
+                              $telNumber = preg_replace('/[^0-9+]/', '', $phoneNumber);
+                              return Html::a(Html::encode(str_replace(' ', '', $phoneNumber)), 'tel:' . $telNumber);
                             }
                         ],
                         [
