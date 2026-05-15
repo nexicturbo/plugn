@@ -45,7 +45,7 @@ echo GridView::widget([
             'format' => 'raw',
             'value' => function ($data) {
                 if ($data->customer_id)
-                    return Html::a($data->customer->customer_name, ['customer/view', 'id' => $data->customer_id, 'storeUuid' => $data->restaurant_uuid]);
+                    return Html::a(Html::encode($data->customer->customer_name), ['customer/view', 'id' => $data->customer_id, 'storeUuid' => $data->restaurant_uuid]);
             },
             'visible' => function ($data) {
                 return $data->customer_id ? true : false;
@@ -55,7 +55,9 @@ echo GridView::widget([
             'attribute' => 'customer_phone_number',
             "format" => "raw",
             "value" => function($model) {
-              return '<a href="tel:'. $model->customer_phone_number .'"> '. str_replace(' ', '', $model->customer_phone_number) .' </a>';
+              $phoneNumber = (string) $model->customer_phone_number;
+              $telNumber = preg_replace('/[^0-9+]/', '', $phoneNumber);
+              return Html::a(Html::encode(str_replace(' ', '', $phoneNumber)), 'tel:' . $telNumber);
             }
         ],
         /*[
