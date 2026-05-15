@@ -71,7 +71,7 @@ $this->registerJs($js);
                     'format' => 'raw',
                     'value' => function ($data) {
                         if ($data->customer_id)
-                            return Html::a($data->customer->customer_name, ['customer/view', 'id' => $data->customer_id, 'storeUuid' => $data->restaurant_uuid]);
+                            return Html::a(Html::encode($data->customer->customer_name), ['customer/view', 'id' => $data->customer_id, 'storeUuid' => $data->restaurant_uuid]);
                     },
                     'visible' => function ($data) {
                         return $data->customer_id ? true : false;
