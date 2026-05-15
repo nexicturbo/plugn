@@ -47,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'restaurant',
                 'format' => 'raw',
                 'value' => function ($data) {
-                    return Html::a($data->restaurant->name, ['restaurant/view', 'id' => $data->restaurant_uuid],
+                    return Html::a(Html::encode($data->restaurant->name), ['restaurant/view', 'id' => $data->restaurant_uuid],
                         ['target'=>'_blank']);
                 },
             ],
