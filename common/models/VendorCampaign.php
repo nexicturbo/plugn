@@ -197,7 +197,7 @@ class VendorCampaign extends \yii\db\ActiveRecord
      */
     public function getCampaignFilters($modelClass = "\common\models\CampaignFilter")
     {
-        return $this->hasOne($modelClass::className(), ['campaign_uuid' => 'campaign_uuid']);
+        return $this->hasMany($modelClass::className(), ['campaign_uuid' => 'campaign_uuid']);
     }
 
     /**

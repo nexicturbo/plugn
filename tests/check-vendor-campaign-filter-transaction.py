@@ -3,7 +3,9 @@ from pathlib import Path
 
 root = Path(__file__).resolve().parents[1]
 controller = root / "backend/controllers/VendorCampaignController.php"
+vendor_campaign = root / "common/models/VendorCampaign.php"
 source = controller.read_text()
+model_source = vendor_campaign.read_text()
 
 assert "$filtersSaved = true;" in source
 assert "$filtersSaved = false;" in source
@@ -19,5 +21,9 @@ redirect_index = source.index("return $this->redirect(['view', 'id' => $model->c
 rollback_index = source.index("if ($transaction->isActive)")
 
 assert commit_index < redirect_index < rollback_index
+
+assert "function getCampaignFilters" in model_source
+assert "return $this->hasMany($modelClass::className(), ['campaign_uuid' => 'campaign_uuid']);" in model_source
+assert "return $this->hasOne($modelClass::className(), ['campaign_uuid' => 'campaign_uuid']);" not in model_source
 
 print("Vendor campaign filter transaction guard passed.")
