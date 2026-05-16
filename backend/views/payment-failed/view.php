@@ -11,17 +11,29 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Payment Faileds'), '
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 
-function isSerialized($data) {
-    $unserializedData = @unserialize($data);
-    return ($unserializedData !== false || $data === 'b:0;');
+function tryUnserializePaymentFailedResponse($response, &$decoded) {
+    if (!is_string($response)) {
+        return false;
+    }
+
+    set_error_handler(function ($severity, $message, $file, $line) {
+        throw new ErrorException($message, 0, $severity, $file, $line);
+    });
+
+    try {
+        $decoded = unserialize($response, ['allowed_classes' => false]);
+        return $decoded !== false || $response === 'b:0;';
+    } catch (Throwable $e) {
+        $decoded = null;
+        return false;
+    } finally {
+        restore_error_handler();
+    }
 }
 
 function paymentFailedResponseText($response) {
-    if (isSerialized($response)) {
-        try {
-            return print_r(@unserialize($response), true);
-        } catch (Exception $e) {
-        }
+    if (tryUnserializePaymentFailedResponse($response, $decoded)) {
+        return print_r($decoded, true);
     }
 
     return (string) $response;

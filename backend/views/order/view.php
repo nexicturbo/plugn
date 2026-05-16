@@ -778,7 +778,6 @@ DetailView::widget([
                            'class' => 'payment-failed-response',
                        ]) ?>
                     <?php }
-                      // unserialize(  . '')
                 }
                 ?>
             </div>
