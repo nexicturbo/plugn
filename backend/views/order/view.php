@@ -38,6 +38,20 @@ $(function () {
 
 ";
 $this->registerJs($js);
+
+$carrierLinkOptions = ['target' => '_blank', 'rel' => 'noopener noreferrer'];
+$carrierTrackingLink = static function ($url) use ($carrierLinkOptions) {
+    if (!$url) {
+        return null;
+    }
+
+    $scheme = parse_url($url, PHP_URL_SCHEME);
+    if (!in_array($scheme, ['http', 'https'], true)) {
+        return Html::encode($url);
+    }
+
+    return Html::a(Html::encode($url), \yii\helpers\Url::to($url, true), $carrierLinkOptions);
+};
 ?>
 
 
@@ -274,16 +288,16 @@ if  (
                         [
                             'attribute' => 'armada_tracking_link',
                             'format' => 'raw',
-                            'value' => function ($data) {
-                                return Html::a($data->armada_tracking_link, \yii\helpers\Url::to($data->armada_tracking_link, true), ['target' => '_blank']);
+                            'value' => function ($data) use ($carrierTrackingLink) {
+                                return $carrierTrackingLink($data->armada_tracking_link);
                             },
                             'visible' => $model->armada_tracking_link != null,
                         ],
                         [
                             'attribute' => 'armada_delivery_code',
                             'format' => 'raw',
-                            'value' => function ($data) {
-                                return Html::a($data->armada_delivery_code, \yii\helpers\Url::to($data->armada_delivery_code, true), ['target' => '_blank']);
+                            'value' => function ($data) use ($carrierTrackingLink) {
+                                return $carrierTrackingLink($data->armada_delivery_code);
                             },
                             'visible' => $model->armada_delivery_code != null,
                         ],
@@ -291,7 +305,7 @@ if  (
                             'attribute' => 'armada_order_status',
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return $data->armada_order_status ? '<span  style="font-size:20px; font-weight: 700" >' . $data->armada_order_status . '</span>' : null;
+                                return $data->armada_order_status ? '<span  style="font-size:20px; font-weight: 700" >' . Html::encode($data->armada_order_status) . '</span>' : null;
                             },
                             'visible' => $model->armada_order_status != null,
                         ],
@@ -301,7 +315,7 @@ if  (
                             'attribute' => 'mashkor_order_number',
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return $data->mashkor_order_number ? $data->mashkor_order_number : null;
+                                return $data->mashkor_order_number ? Html::encode($data->mashkor_order_number) : null;
                             },
                             'visible' => $model->mashkor_order_number != null,
                         ],
@@ -309,17 +323,15 @@ if  (
                             'attribute' => 'mashkor_order_status',
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return $data->mashkor_order_status ? '<span  style="font-size:20px; font-weight: 700" >' . Yii::$app->mashkorDelivery->getOrderStatus($data->mashkor_order_status) . '</span>' : null;
+                                return $data->mashkor_order_status ? '<span  style="font-size:20px; font-weight: 700" >' . Html::encode(Yii::$app->mashkorDelivery->getOrderStatus($data->mashkor_order_status)) . '</span>' : null;
                             },
                             'visible' => $model->mashkor_order_status != null,
                         ],
                         [
                             'attribute' => 'mashkor_tracking_link',
                             'format' => 'raw',
-                            'value' => function ($data) {
-
-
-                                return Html::a($data->mashkor_tracking_link, \yii\helpers\Url::to($data->mashkor_tracking_link, true), ['target' => '_blank']);
+                            'value' => function ($data) use ($carrierTrackingLink) {
+                                return $carrierTrackingLink($data->mashkor_tracking_link);
                             },
                             'visible' => $model->mashkor_tracking_link != null,
                         ],
@@ -327,7 +339,7 @@ if  (
                             'attribute' => 'mashkor_driver_phone',
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return $data->mashkor_driver_phone ? $data->mashkor_driver_phone : null;
+                                return $data->mashkor_driver_phone ? Html::encode($data->mashkor_driver_phone) : null;
                             },
                             'visible' => $model->mashkor_driver_phone != null,
                         ],
