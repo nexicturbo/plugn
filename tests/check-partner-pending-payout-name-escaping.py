@@ -12,7 +12,7 @@ unsafe = re.compile(
     re.MULTILINE,
 )
 safe = re.compile(
-    r"<td>\s*<\?=\s*Html::encode\s*\(\s*\$payment->restaurant->name\s*\)\s*\?>\s*</td>",
+    r"<td>\s*<\?=\s*Html::encode\s*\(\s*\$payment->restaurant\s*\?\s*\$payment->restaurant->name\s*:\s*'-'\s*\)\s*\?>\s*</td>",
     re.MULTILINE,
 )
 

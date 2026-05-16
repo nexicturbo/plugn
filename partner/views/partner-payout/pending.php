@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     <tr>
                         <td><?= date('M d, Y, h:i A', strtotime($payment->payment_created_at)) ?></td>
-                        <td><?= Html::encode($payment->restaurant->name) ?></td>
+                        <td><?= Html::encode($payment->restaurant ? $payment->restaurant->name : '-') ?></td>
                         <td><?= Yii::$app->formatter->asCurrency($payment->partner_fee , 'KWD',[ \NumberFormatter::MIN_FRACTION_DIGITS => 4, \NumberFormatter::MAX_FRACTION_DIGITS => 4 ]); ?></td>
                     </tr>
 
