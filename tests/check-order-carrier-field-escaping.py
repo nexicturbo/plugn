@@ -17,7 +17,7 @@ def assert_not_contains(content: str, needle: str, path: Path) -> None:
 
 
 for view_path in ORDER_VIEWS:
-    content = view_path.read_text()
+    content = view_path.read_text(encoding="utf-8")
 
     assert_contains(content, "Html::encode($url)", view_path)
     assert_contains(content, "parse_url($url, PHP_URL_SCHEME)", view_path)
