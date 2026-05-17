@@ -4,6 +4,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\grid\GridView;
+use common\components\OrderCarrierFieldRenderer;
 use common\models\Order;
 use common\models\Voucher;
 use common\models\BankDiscount;
@@ -39,20 +40,6 @@ $(function () {
 
 ";
 $this->registerJs($js);
-
-$carrierLinkOptions = ['target' => '_blank', 'rel' => 'noopener noreferrer'];
-$carrierTrackingLink = static function ($url) use ($carrierLinkOptions) {
-    if (!$url) {
-        return null;
-    }
-
-    $scheme = parse_url($url, PHP_URL_SCHEME);
-    if (!in_array($scheme, ['http', 'https'], true)) {
-        return Html::encode($url);
-    }
-
-    return Html::a(Html::encode($url), \yii\helpers\Url::to($url, true), $carrierLinkOptions);
-};
 ?>
 
 
@@ -385,16 +372,16 @@ if ($model->order_status != Order::STATUS_CANCELED && $model->order_status != Or
                         [
                             'attribute' => 'armada_tracking_link',
                             'format' => 'raw',
-                            'value' => function ($data) use ($carrierTrackingLink) {
-                                return $carrierTrackingLink($data->armada_tracking_link);
+                            'value' => function ($data) {
+                                return OrderCarrierFieldRenderer::trackingLink($data->armada_tracking_link);
                             },
                             'visible' => $model->armada_tracking_link != null,
                         ],
                         [
                             'attribute' => 'armada_delivery_code',
                             'format' => 'raw',
-                            'value' => function ($data) use ($carrierTrackingLink) {
-                                return $carrierTrackingLink($data->armada_delivery_code);
+                            'value' => function ($data) {
+                                return OrderCarrierFieldRenderer::trackingLink($data->armada_delivery_code);
                             },
                             'visible' => $model->armada_delivery_code != null,
                         ],
@@ -425,8 +412,8 @@ if ($model->order_status != Order::STATUS_CANCELED && $model->order_status != Or
                         [
                             'attribute' => 'mashkor_tracking_link',
                             'format' => 'raw',
-                            'value' => function ($data) use ($carrierTrackingLink) {
-                                return $carrierTrackingLink($data->mashkor_tracking_link);
+                            'value' => function ($data) {
+                                return OrderCarrierFieldRenderer::trackingLink($data->mashkor_tracking_link);
                             },
                             'visible' => $model->mashkor_tracking_link != null,
                         ],
