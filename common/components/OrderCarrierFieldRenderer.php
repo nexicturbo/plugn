@@ -9,7 +9,7 @@ class OrderCarrierFieldRenderer
 {
     public static function trackingLink($url)
     {
-        if (!$url) {
+        if ($url === null || $url === '') {
             return null;
         }
 

@@ -375,7 +375,7 @@ if ($model->order_status != Order::STATUS_CANCELED && $model->order_status != Or
                             'value' => function ($data) {
                                 return OrderCarrierFieldRenderer::trackingLink($data->armada_tracking_link);
                             },
-                            'visible' => $model->armada_tracking_link != null,
+                            'visible' => $model->armada_tracking_link !== null && $model->armada_tracking_link !== '',
                         ],
                         [
                             'attribute' => 'armada_delivery_code',
@@ -383,31 +383,31 @@ if ($model->order_status != Order::STATUS_CANCELED && $model->order_status != Or
                             'value' => function ($data) {
                                 return OrderCarrierFieldRenderer::trackingLink($data->armada_delivery_code);
                             },
-                            'visible' => $model->armada_delivery_code != null,
+                            'visible' => $model->armada_delivery_code !== null && $model->armada_delivery_code !== '',
                         ],
                         [
                             'attribute' => 'armada_order_status',
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return $data->armada_order_status ? '<span  style="font-size:20px; font-weight: 700" >' . Html::encode($data->armada_order_status) . '</span>' : null;
+                                return $data->armada_order_status !== null && $data->armada_order_status !== '' ? '<span  style="font-size:20px; font-weight: 700" >' . Html::encode($data->armada_order_status) . '</span>' : null;
                             },
-                            'visible' => $model->armada_order_status != null,
+                            'visible' => $model->armada_order_status !== null && $model->armada_order_status !== '',
                         ],
                         [
                             'attribute' => 'mashkor_order_number',
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return $data->mashkor_order_number ? Html::encode($data->mashkor_order_number) : null;
+                                return $data->mashkor_order_number !== null && $data->mashkor_order_number !== '' ? Html::encode($data->mashkor_order_number) : null;
                             },
-                            'visible' => $model->mashkor_order_number != null,
+                            'visible' => $model->mashkor_order_number !== null && $model->mashkor_order_number !== '',
                         ],
                         [
                             'attribute' => 'mashkor_order_status',
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return $data->mashkor_order_status ? '<span  style="font-size:20px; font-weight: 700" >' . Html::encode(Yii::$app->mashkorDelivery->getOrderStatus($data->mashkor_order_status)) . '</span>' : null;
+                                return $data->mashkor_order_status !== null && $data->mashkor_order_status !== '' ? '<span  style="font-size:20px; font-weight: 700" >' . Html::encode(Yii::$app->mashkorDelivery->getOrderStatus($data->mashkor_order_status)) . '</span>' : null;
                             },
-                            'visible' => $model->mashkor_order_status != null,
+                            'visible' => $model->mashkor_order_status !== null && $model->mashkor_order_status !== '',
                         ],
                         [
                             'attribute' => 'mashkor_tracking_link',
@@ -415,23 +415,23 @@ if ($model->order_status != Order::STATUS_CANCELED && $model->order_status != Or
                             'value' => function ($data) {
                                 return OrderCarrierFieldRenderer::trackingLink($data->mashkor_tracking_link);
                             },
-                            'visible' => $model->mashkor_tracking_link != null,
+                            'visible' => $model->mashkor_tracking_link !== null && $model->mashkor_tracking_link !== '',
                         ],
                         [
                             'attribute' => 'mashkor_driver_phone',
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return $data->mashkor_driver_phone ? Html::encode($data->mashkor_driver_phone) : null;
+                                return $data->mashkor_driver_phone !== null && $data->mashkor_driver_phone !== '' ? Html::encode($data->mashkor_driver_phone) : null;
                             },
-                            'visible' => $model->mashkor_driver_phone != null,
+                            'visible' => $model->mashkor_driver_phone !== null && $model->mashkor_driver_phone !== '',
                         ],
                         [
                             'attribute' => 'mashkor_driver_name',
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return $data->mashkor_driver_name ? Html::encode($data->mashkor_driver_name) : null;
+                                return $data->mashkor_driver_name !== null && $data->mashkor_driver_name !== '' ? Html::encode($data->mashkor_driver_name) : null;
                             },
-                            'visible' => $model->mashkor_driver_name != null,
+                            'visible' => $model->mashkor_driver_name !== null && $model->mashkor_driver_name !== '',
                         ],
                     ],
                     'options' => ['class' => 'table table-hover text-nowrap table-bordered'],
