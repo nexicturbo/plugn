@@ -19,7 +19,7 @@ def assert_not_contains(content: str, needle: str, path: Path) -> None:
 
 renderer_content = RENDERER.read_text(encoding="utf-8")
 assert_contains(renderer_content, "Html::encode($url)", RENDERER)
-assert_contains(renderer_content, "parse_url($url, PHP_URL_SCHEME)", RENDERER)
+assert_contains(renderer_content, "strtolower((string) parse_url($url, PHP_URL_SCHEME))", RENDERER)
 assert_contains(renderer_content, "in_array($scheme, ['http', 'https'], true)", RENDERER)
 assert_contains(renderer_content, "'rel' => 'noopener noreferrer'", RENDERER)
 
@@ -38,6 +38,7 @@ for view_path in ORDER_VIEWS:
         view_path,
     )
     assert_contains(content, "Html::encode($data->mashkor_driver_phone)", view_path)
+    assert_contains(content, "Html::encode($data->mashkor_driver_name)", view_path)
 
     assert_not_contains(content, "Html::a($data->armada_tracking_link", view_path)
     assert_not_contains(content, "Html::a($data->armada_delivery_code", view_path)
@@ -62,6 +63,11 @@ for view_path in ORDER_VIEWS:
     assert_not_contains(
         content,
         "? $data->mashkor_driver_phone : null",
+        view_path,
+    )
+    assert_not_contains(
+        content,
+        "? $data->mashkor_driver_name : null",
         view_path,
     )
 

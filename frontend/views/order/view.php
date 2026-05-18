@@ -429,7 +429,7 @@ if ($model->order_status != Order::STATUS_CANCELED && $model->order_status != Or
                             'attribute' => 'mashkor_driver_name',
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return $data->mashkor_driver_name ? $data->mashkor_driver_name : null;
+                                return $data->mashkor_driver_name ? Html::encode($data->mashkor_driver_name) : null;
                             },
                             'visible' => $model->mashkor_driver_name != null,
                         ],
